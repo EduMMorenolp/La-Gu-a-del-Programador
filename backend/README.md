@@ -22,6 +22,7 @@ El backend de La Guía del Programador está desarrollado con Node.js y Express.
 
 ## Estructura del Proyecto
 
+```bash
 backend/
 ├── node_modules/          # Dependencias instaladas
 ├── src/                   
@@ -36,3 +37,4 @@ backend/
 ├── package.json           # Configuración del proyecto
 ├── .env                   # Variables de entorno
 └── README.md              # Documentación del proyecto
+ ```
