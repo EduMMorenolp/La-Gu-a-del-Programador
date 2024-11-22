@@ -1,0 +1,39 @@
+# Node modules
+node_modules/
+
+# Archivos de entorno
+.env
+
+# Archivos de log
+*.log
+
+# Directorios de dependencias y configuraciones de depuración
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Directorios de construcción y distribución
+dist/
+build/
+
+# Archivos de caché de dependencias
+.pnp/
+.pnp.js
+
+# Archivos de configuraciones temporales de IDEs
+.vscode/
+.idea/
+
+# Archivos de la base de datos
+*.sql
+*.sqlite
+
+# Dependencias de test y herramientas de cobertura
+coverage/
+
+# Archivos generados por Jest o cualquier otro sistema de test
+*.test.js
+
+# Archivos temporales de sistemas operativos
+Thumbs.db
+.DS_Store
