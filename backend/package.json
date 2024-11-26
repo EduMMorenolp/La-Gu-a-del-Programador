@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "API backend for La Guía del Programador project using MySQL and Swagger for documentation",
   "main": "index.js",
+  "type": "module",
   "scripts": {
+    "dev": "node --watch ./src/index.js",
     "start": "node index.js",
     "test": "jest",
     "lint": "eslint .",
@@ -35,7 +37,7 @@
     "prettier": "^3.3.3"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=22.11.0"
   },
   "repository": {
     "type": "git",
