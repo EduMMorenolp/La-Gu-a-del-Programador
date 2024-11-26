@@ -24,17 +24,39 @@ El backend de La Guía del Programador está desarrollado con Node.js y Express.
 
 ```bash
 backend/
-├── node_modules/          # Dependencias instaladas
-├── src/                   
-│   ├── config/            # Archivos de configuración (por ejemplo, base de datos, variables de entorno)
-│   ├── controllers/       # Lógica de las rutas (manejadores de controladores)
-│   ├── models/            # Modelos de datos (definición de tablas MySQL)
-│   ├── routes/            # Rutas de la API
-│   ├── services/          # Lógica de negocio (opcional, puede ser algo más avanzado)
-│   ├── utils/             # Utilidades generales (por ejemplo, validaciones, formateo de datos)
-│   └── index.js           # Archivo principal para iniciar el servidor
-├── .gitignore             # Archivos y carpetas a ignorar en Git
-├── package.json           # Configuración del proyecto
-├── .env                   # Variables de entorno
-└── README.md              # Documentación del proyecto
+├── node_modules/        # Dependencias del proyecto
+├── src/                 # Código fuente
+│   ├── controllers/     # Lógica de las rutas
+│   │   ├── linksController.js
+│   │   ├── suggestionsController.js
+│   │   └── youtubeController.js
+│   ├── routes/          # Definición de las rutas
+│   │   ├── linksRoutes.js
+│   │   ├── suggestionsRoutes.js
+│   │   └── youtubeRoutes.js
+│   ├── models/          # Modelos de datos
+│   │   ├── linkModel.js
+│   │   ├── suggestionModel.js
+│   │   └── youtubeModel.js
+│   ├── services/        # Lógica de negocio o conexión a servicios externos
+│   │   ├── dbService.js
+│   │   └── validationService.js
+│   ├── config/          # Configuraciones generales
+│   │   ├── dbConfig.js
+│   │   └── swaggerConfig.js
+│   ├── middlewares/     # Middleware personalizados
+│   │   ├── errorHandler.js
+│   │   └── authMiddleware.js
+│   ├── utils/           # Utilidades generales
+│   │   └── responseHelper.js
+│   ├── app.js           # Configuración inicial de Express
+│   └── index.js         # Punto de entrada principal
+├── tests/               # Tests del proyecto
+│   ├── integration/     # Pruebas de integración
+│   └── unit/            # Pruebas unitarias
+├── .env                 # Variables de entorno
+├── .env.example         # Ejemplo de variables de entorno
+├── .gitignore           # Archivos y carpetas a ignorar por Git
+├── package.json         # Configuración del proyecto y dependencias
+└── README.md            # Información del proyecto
  ```
