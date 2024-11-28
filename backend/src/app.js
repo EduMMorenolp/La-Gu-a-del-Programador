@@ -1,4 +1,9 @@
+// src/app.js
+
 import express from 'express';
+
+// Routes
+import homeRoutes from './routes/home.Routes.js';
 
 const app = express();
 
@@ -6,9 +11,7 @@ const app = express();
 app.use(express.json());
 
 // Rutas
-app.get('/', (req, res) => {
-    res.send('Servidor en funcionamiento');
-});
+app.get('/', homeRoutes);
 
 
 export default app;
