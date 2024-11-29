@@ -19,6 +19,8 @@ El backend de La Guía del Programador está desarrollado con Node.js y Express.
 
 - Node.js >= 16.0.0
 - MySQL >= 5.7
+- dotenv
+- mysql2
 
 ## Estructura del Proyecto
 
