@@ -13,6 +13,6 @@ app.use(express.json());
 
 // Rutas
 app.use('/api/v1/resources/videos', videosRoutes);
-app.use('/home', homeRoutes);
+app.use('/', homeRoutes);
 
 export default app;
