@@ -61,4 +61,4 @@ backend/
 ├── .gitignore           # Archivos y carpetas a ignorar por Git
 ├── package.json         # Configuración del proyecto y dependencias
 └── README.md            # Información del proyecto
- ```
+```

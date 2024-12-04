@@ -15,5 +15,4 @@ app.use(express.json());
 app.use('/api/v1/resources/videos', videosRoutes);
 app.use('/home', homeRoutes);
 
-
 export default app;
