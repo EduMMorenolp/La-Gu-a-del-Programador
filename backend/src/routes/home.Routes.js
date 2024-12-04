@@ -4,7 +4,7 @@ import express from 'express';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    const htmlResponse = `
+  const htmlResponse = `
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -80,7 +80,7 @@ router.get('/', (req, res) => {
     </body>
     </html>
   `;
-    res.send(htmlResponse);
+  res.send(htmlResponse);
 });
 
 export default router;
