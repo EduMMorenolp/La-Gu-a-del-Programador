@@ -33,18 +33,20 @@
   },
   "devDependencies": {
     "eslint": "^9.15.0",
+    "husky": "^9.1.7",
     "jest": "^29.7.0",
-    "prettier": "^3.3.3"
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.4.1"
   },
   "engines": {
     "node": ">=22.11.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/usuario/la-guia-del-programador-backend"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
-  "bugs": {
-    "url": "https://github.com/usuario/la-guia-del-programador-backend/issues"
-  },
-  "homepage": "https://github.com/usuario/la-guia-del-programador-backend#readme"
+  "lint-staged": {
+    "**/*.{js,jsx,json,css,md}": "prettier --write"
+  }
 }
