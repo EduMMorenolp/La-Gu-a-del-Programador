@@ -7,7 +7,7 @@ export const getAllLinks = async () => {
         `);
     return rows;
   } catch (error) {
-    throw error; // TODO: handlear con el middleware de errores
+    throw error;
   }
 };
 
@@ -22,9 +22,17 @@ export const getLinkById = async (idLink) => {
         `,
       [idLink]
     );
+
+    if (!rows[0]) {
+      throw {
+        statusCode: 404,
+        message: `Link con ID ${idLink} no encontrado`,
+      };
+    }
+
     return rows[0];
   } catch (error) {
-    throw error; // TODO: handlear con el middleware de errores
+    throw error;
   }
 };
 
@@ -50,11 +58,26 @@ export const createLink = async (link) => {
       [idRecurso, url]
     );
 
+    const idLink = linkResult.insertId;
+
     await global.dbConnection.commit();
-    return linkResult.insertId;
+
+    return {
+      id_link: idLink,
+      titulo,
+      descripcion,
+      id_categoria,
+      url,
+    };
   } catch (error) {
     await global.dbConnection.rollback();
-    throw error; // TODO: handlear con el middleware de errores
+
+    if (error.code === 'ER_DUP_ENTRY') {
+      error.statusCode = 400;
+      error.message = 'Ya existe un link con esa URL';
+    }
+
+    throw error;
   }
 };
 
@@ -63,7 +86,7 @@ export const updateLink = async (idLink, link) => {
   try {
     await global.dbConnection.beginTransaction();
 
-    await global.dbConnection.execute(
+    const [resourceResult] = await global.dbConnection.execute(
       `
             UPDATE Recurso r
             JOIN Link l ON r.id_recurso = l.id_recurso
@@ -72,6 +95,13 @@ export const updateLink = async (idLink, link) => {
         `,
       [titulo, descripcion, id_categoria, idLink]
     );
+
+    if (resourceResult.affectedRows === 0) {
+      throw {
+        statusCode: 404,
+        message: `No se encontro el link con ID ${idLink} para actualizar`,
+      };
+    }
 
     const [linkResult] = await global.dbConnection.execute(
       `
@@ -82,11 +112,31 @@ export const updateLink = async (idLink, link) => {
       [url, idLink]
     );
 
+    if (linkResult.affectedRows === 0) {
+      throw {
+        statusCode: 400,
+        message: 'No se pudo actualizar la URL del link',
+      };
+    }
+
     await global.dbConnection.commit();
-    return linkResult.affectedRows;
+
+    return {
+      id_link: idLink,
+      titulo,
+      descripcion,
+      id_categoria,
+      url,
+    };
   } catch (error) {
     await global.dbConnection.rollback();
-    throw error; // TODO: handlear con el middleware de errores
+
+    if (error.code === 'ER_DUP_ENTRY') {
+      error.statusCode = 400;
+      error.message = 'Ya existe un link con esa URL';
+    }
+
+    throw error;
   }
 };
 
@@ -101,8 +151,14 @@ export const deleteLink = async (idLink) => {
         `,
       [idLink]
     );
+    if (result.affectedRows === 0) {
+      throw {
+        statusCode: 404,
+        message: `No se encontro el link con ID ${idLink} para eliminar`,
+      };
+    }
     return result.affectedRows;
   } catch (error) {
-    throw error; // TODO: handlear con el middleware de errores
+    throw error;
   }
 };

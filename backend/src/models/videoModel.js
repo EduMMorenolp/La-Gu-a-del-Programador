@@ -7,7 +7,7 @@ export const getAllVideos = async () => {
         `);
     return rows;
   } catch (error) {
-    throw error; // TODO: handlear con el middleware de errores
+    throw error;
   }
 };
 
@@ -22,9 +22,17 @@ export const getVideoById = async (idVideo) => {
         `,
       [idVideo]
     );
+
+    if (!rows[0]) {
+      throw {
+        statusCode: 404,
+        message: `Video con ID ${idVideo} no encontrado`,
+      };
+    }
+
     return rows[0];
   } catch (error) {
-    throw error; // TODO: handlear con el middleware de errores
+    throw error;
   }
 };
 
@@ -50,11 +58,26 @@ export const createVideo = async (video) => {
       [idRecurso, url]
     );
 
+    const idVideo = videoResult.insertId;
+
     await global.dbConnection.commit();
-    return videoResult.insertId;
+
+    return {
+      id_video: idVideo,
+      titulo,
+      descripcion,
+      id_categoria,
+      url,
+    };
   } catch (error) {
     await global.dbConnection.rollback();
-    throw error; // TODO: handlear con el middleware de errores
+
+    if (error.code === 'ER_DUP_ENTRY') {
+      error.statusCode = 400;
+      error.message = 'Ya existe un video con esa URL';
+    }
+
+    throw error;
   }
 };
 
@@ -63,7 +86,7 @@ export const updateVideo = async (idVideo, video) => {
   try {
     await global.dbConnection.beginTransaction();
 
-    await global.dbConnection.execute(
+    const [resourceResult] = await global.dbConnection.execute(
       `
             UPDATE Recurso r
             JOIN Video v ON r.id_recurso = v.id_recurso
@@ -72,6 +95,13 @@ export const updateVideo = async (idVideo, video) => {
         `,
       [titulo, descripcion, id_categoria, idVideo]
     );
+
+    if (resourceResult.affectedRows === 0) {
+      throw {
+        statusCode: 404,
+        message: `No se encontro el video con ID ${idVideo} para actualizar`,
+      };
+    }
 
     const [videoResult] = await global.dbConnection.execute(
       `
@@ -82,11 +112,31 @@ export const updateVideo = async (idVideo, video) => {
       [url, idVideo]
     );
 
+    if (videoResult.affectedRows === 0) {
+      throw {
+        statusCode: 400,
+        message: 'No se pudo actualizar la URL del video',
+      };
+    }
+
     await global.dbConnection.commit();
-    return videoResult.affectedRows;
+
+    return {
+      id_video: idVideo,
+      titulo,
+      descripcion,
+      id_categoria,
+      url,
+    };
   } catch (error) {
     await global.dbConnection.rollback();
-    throw error; // TODO: handlear con el middleware de errores
+
+    if (error.code === 'ER_DUP_ENTRY') {
+      error.statusCode = 400;
+      error.message = 'Ya existe un video con esa URL';
+    }
+
+    throw error;
   }
 };
 
@@ -101,8 +151,14 @@ export const deleteVideo = async (idVideo) => {
         `,
       [idVideo]
     );
+    if (result.affectedRows === 0) {
+      throw {
+        statusCode: 404,
+        message: `No se encontro el video con ID ${idVideo} para eliminar`,
+      };
+    }
     return result.affectedRows;
   } catch (error) {
-    throw error; // TODO: handlear con el middleware de errores
+    throw error;
   }
 };
