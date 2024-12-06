@@ -1,0 +1,137 @@
+{
+	"info": {
+		"_postman_id": "3a66fa53-c2de-4b0d-a63b-b73f6e7da21a",
+		"name": "La guia del programador",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "25347051"
+	},
+	"item": [
+		{
+			"name": "videos",
+			"item": [
+				{
+					"name": "Get all videos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{testing_url}}{{videos_url}}/"
+					},
+					"response": []
+				},
+				{
+					"name": "Get one video",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{testing_url}}{{videos_url}}/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Create video",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\": \"test\",\r\n    \"descripcion\": \"test123\",\r\n    \"id_categoria\": \"1\",\r\n    \"url\": \"https://youtube.com/test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{testing_url}}{{videos_url}}/"
+					},
+					"response": []
+				},
+				{
+					"name": "Update video",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\": \"test editado\",\r\n    \"descripcion\": \"test123456\",\r\n    \"id_categoria\": \"1\",\r\n    \"url\": \"https://youtube.com/testactualizado\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{testing_url}}{{videos_url}}/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Update video Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{testing_url}}{{videos_url}}/1"
+					},
+					"response": []
+				}
+			],
+			"description": "## **Obtener todos los videos**\n\nHacer una petición GET a:\n\n[http://localhost:3000/api/v1/videos/](http://localhost:3000/api/v1/videos)\n\nLa respuesta es un array de objetos con la forma:\n\n``` json\n[\n    {\n        \"id_video\": 1,\n        \"titulo\": \"test\",\n        \"descripcion\": \"test123\",\n        \"url\": \"https://youtube.com/test\",\n        \"id_categoria\": 1\n    },\n    {\n        \"id_video\": 232,\n        \"titulo\": \"ABCD\",\n        \"descripcion\": \"abc\",\n        \"url\": \"https://youtube.com/abc\",\n        \"id_categoria\": 15\n    }\n]\n\n ```\n\nSi no hay videos se devuelve un array vacio.\n\n## **Obtener un video**\n\nHacer una petición GET a:\n\n[http://localhost:3000/api/v1/videos/id](http://localhost:3000/api/v1/videos)\n\ndonde \"id\" representa el campo `id_video`del video:\n\n[http://localhost:3000/api/v1/videos/1](http://localhost:3000/api/v1/videos)\n\nLa respuesta es un objeto con la forma:\n\n``` json\n{\n    \"id_video\": 1,\n    \"titulo\": \"test\",\n    \"descripcion\": \"test123\",\n    \"url\": \"https://youtube.com/test\",\n    \"id_categoria\": 1\n}\n\n ```\n\nSi no se encuentra el video se devuelve un objeto con la forma:\n\n``` json\n{\n    \"error\": \"Video con ID 1 no encontrado\"\n}\n\n ```\n\n## **Crear un video**\n\nHacer una petición POST a:\n\n[http://localhost:3000/api/v1/videos](http://localhost:3000/api/v1/videos)\n\ncon un cuerpo en formato json con la forma:\n\n``` json\n{\n    \"titulo\": \"test\",\n    \"descripcion\": \"test123\",\n    \"id_categoria\": \"1\",\n    \"url\": \"https://youtube.com/test\"\n}\n\n ```\n\nLa respuesta es un objeto con la forma:\n\n``` json\n{\n    \"message\": \"Video creado\",\n    \"id\": 1\n}\n\n ```\n\nEn caso de error la respuesta es un objeto con la forma:\n\n``` json\n{\n    \"error\": \"mensaje de error\"\n}\n\n ```\n\n## **Actualizar un video**\n\nHacer una petición PUT a:\n\n[http://localhost:3000/api/v1/videos/id](http://localhost:3000/api/v1/videos)\n\ndonde \"id\" representa el campo `id_video`del video:\n\n[http://localhost:3000/api/v1/videos/1](http://localhost:3000/api/v1/videos)\n\ncon un cuerpo en formato json con la forma:\n\n``` json\n{\n    \"titulo\": \"test editado\",\n    \"descripcion\": \"test123456\",\n    \"id_categoria\": \"1\",\n    \"url\": \"https://youtube.com/testactualizado\"\n}\n\n ```\n\nLa respuesta es un objeto con la forma:\n\n``` json\n{\n    \"message\": \"Video actualizado\"\n}\n\n ```\n\nEn caso de error la respuesta es un objeto con la forma:\n\n``` json\n{\n    \"error\": \"No se pudo actualizar el video con ID 1\"\n}\n\n ```\n\n## **Eliminar un video**\n\nHacer una petición DELETE a:\n\n[http://localhost:3000/api/v1/videos/id](http://localhost:3000/api/v1/videos)\n\ndonde \"id\" representa el campo `id_video`del video:\n\n[http://localhost:3000/api/v1/videos/1](http://localhost:3000/api/v1/videos)\n\nLa respuesta es un objeto con la forma:\n\n``` json\n{\n    \"message\": \"Video eliminado\"\n}\n\n ```\n\nEn caso de error la respuesta es un objeto con la forma:\n\n``` json\n{\n    \"error\": \"No se pudo eliminar el video con ID 1\"\n}\n\n ```"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "videos_url",
+			"value": "/api/v1/resources/videos",
+			"type": "string"
+		},
+		{
+			"key": "testing_url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}

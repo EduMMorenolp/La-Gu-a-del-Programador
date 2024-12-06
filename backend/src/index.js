@@ -1,14 +1,28 @@
-import express from 'express'
+import dotenv from 'dotenv';
+import app from './app.js';
+import { createConnection } from './config/dbConfig.js';
 
-const app = express();
+dotenv.config();
+
 const PORT = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-    res.send('Servidor en funcionamiento');
-});
+const startServer = async () => {
+  try {
+    // Conectar a la base de datos
+    const dbConnection = await createConnection();
+    global.dbConnection = dbConnection;
 
-app.listen(PORT, () => {
-    console.log('==================================================')
-    console.log(`🚀 Servidor corriendo en: http://localhost:${PORT}`)
-    console.log('==================================================')
-});
+    // Iniciar el servidor
+    app.listen(PORT, () => {
+      console.log('\n==================================================');
+      console.log(`🚀 Servidor corriendo en: http://localhost:${PORT}`);
+      console.log(`📃 Swagger Docs: http://localhost:${PORT}/api-docs`);
+      console.log('==================================================\n');
+    });
+  } catch (error) {
+    console.error('❌ Error al iniciar el servidor:', error.message);
+    process.exit(1);
+  }
+};
+
+startServer();
