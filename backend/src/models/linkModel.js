@@ -1,9 +1,9 @@
-export const getAllVideos = async () => {
+export const getAllLinks = async () => {
   try {
     const [rows] = await global.dbConnection.execute(`
-            SELECT v.id_video, r.titulo, r.descripcion, v.url, r.id_categoria
-            FROM Video v
-            JOIN Recurso r ON v.id_recurso = r.id_recurso
+            SELECT l.id_link, r.titulo, r.descripcion, l.url, r.id_categoria
+            FROM Link l
+            JOIN Recurso r ON l.id_recurso = r.id_recurso
         `);
     return rows;
   } catch (error) {
@@ -11,22 +11,22 @@ export const getAllVideos = async () => {
   }
 };
 
-export const getVideoById = async (idVideo) => {
+export const getLinkById = async (idLink) => {
   try {
     const [rows] = await global.dbConnection.execute(
       `
-            SELECT v.id_video, r.titulo, r.descripcion, v.url, r.id_categoria
-            FROM Video v
-            JOIN Recurso r ON v.id_recurso = r.id_recurso
-            WHERE v.id_video = ?
+            SELECT l.id_link, r.titulo, r.descripcion, l.url, r.id_categoria
+            FROM Link l
+            JOIN Recurso r ON l.id_recurso = r.id_recurso
+            WHERE l.id_link = ?
         `,
-      [idVideo]
+      [idLink]
     );
 
     if (!rows[0]) {
       throw {
         statusCode: 404,
-        message: `Video con ID ${idVideo} no encontrado`,
+        message: `Link con ID ${idLink} no encontrado`,
       };
     }
 
@@ -36,34 +36,34 @@ export const getVideoById = async (idVideo) => {
   }
 };
 
-export const createVideo = async (video) => {
-  const { titulo, descripcion, id_categoria, url } = video;
+export const createLink = async (link) => {
+  const { titulo, descripcion, id_categoria, url } = link;
   try {
     await global.dbConnection.beginTransaction();
     const [recursoResult] = await global.dbConnection.execute(
       `
             INSERT INTO Recurso (tipo_recurso, titulo, descripcion, id_categoria)
-            VALUES ('video', ?, ?, ?)
+            VALUES ('link', ?, ?, ?)
         `,
       [titulo, descripcion, id_categoria]
     );
 
     const idRecurso = recursoResult.insertId;
 
-    const [videoResult] = await global.dbConnection.execute(
+    const [linkResult] = await global.dbConnection.execute(
       `
-            INSERT INTO Video (id_recurso, url)
+            INSERT INTO Link (id_recurso, url)
             VALUES (?, ?)
         `,
       [idRecurso, url]
     );
 
-    const idVideo = videoResult.insertId;
+    const idLink = linkResult.insertId;
 
     await global.dbConnection.commit();
 
     return {
-      id_video: idVideo,
+      id_link: idLink,
       titulo,
       descripcion,
       id_categoria,
@@ -74,55 +74,55 @@ export const createVideo = async (video) => {
 
     if (error.code === 'ER_DUP_ENTRY') {
       error.statusCode = 400;
-      error.message = 'Ya existe un video con esa URL';
+      error.message = 'Ya existe un link con esa URL';
     }
 
     throw error;
   }
 };
 
-export const updateVideo = async (idVideo, video) => {
-  const { titulo, descripcion, id_categoria, url } = video;
+export const updateLink = async (idLink, link) => {
+  const { titulo, descripcion, id_categoria, url } = link;
   try {
     await global.dbConnection.beginTransaction();
 
     const [resourceResult] = await global.dbConnection.execute(
       `
             UPDATE Recurso r
-            JOIN Video v ON r.id_recurso = v.id_recurso
+            JOIN Link l ON r.id_recurso = l.id_recurso
             SET r.titulo = ?, r.descripcion = ?, r.id_categoria = ?
-            WHERE v.id_video = ?
+            WHERE l.id_link = ?
         `,
-      [titulo, descripcion, id_categoria, idVideo]
+      [titulo, descripcion, id_categoria, idLink]
     );
 
     if (resourceResult.affectedRows === 0) {
       throw {
         statusCode: 404,
-        message: `No se encontro el video con ID ${idVideo} para actualizar`,
+        message: `No se encontro el link con ID ${idLink} para actualizar`,
       };
     }
 
-    const [videoResult] = await global.dbConnection.execute(
+    const [linkResult] = await global.dbConnection.execute(
       `
-            UPDATE Video
+            UPDATE Link
             SET url = ?
-            WHERE id_video = ?
+            WHERE id_link = ?
         `,
-      [url, idVideo]
+      [url, idLink]
     );
 
-    if (videoResult.affectedRows === 0) {
+    if (linkResult.affectedRows === 0) {
       throw {
         statusCode: 400,
-        message: 'No se pudo actualizar la URL del video',
+        message: 'No se pudo actualizar la URL del link',
       };
     }
 
     await global.dbConnection.commit();
 
     return {
-      id_video: idVideo,
+      id_link: idLink,
       titulo,
       descripcion,
       id_categoria,
@@ -133,28 +133,28 @@ export const updateVideo = async (idVideo, video) => {
 
     if (error.code === 'ER_DUP_ENTRY') {
       error.statusCode = 400;
-      error.message = 'Ya existe un video con esa URL';
+      error.message = 'Ya existe un link con esa URL';
     }
 
     throw error;
   }
 };
 
-export const deleteVideo = async (idVideo) => {
+export const deleteLink = async (idLink) => {
   try {
     const [result] = await global.dbConnection.execute(
       `
             DELETE FROM Recurso
             WHERE id_recurso = (
-                SELECT id_recurso FROM Video WHERE id_video = ?
+                SELECT id_recurso FROM Link WHERE id_link = ?
             )
         `,
-      [idVideo]
+      [idLink]
     );
     if (result.affectedRows === 0) {
       throw {
         statusCode: 404,
-        message: `No se encontro el video con ID ${idVideo} para eliminar`,
+        message: `No se encontro el link con ID ${idLink} para eliminar`,
       };
     }
     return result.affectedRows;
