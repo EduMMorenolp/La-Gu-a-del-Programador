@@ -1,6 +1,7 @@
 const updateVideo = {
     summary: 'Actualiza un video por ID',
     description: 'Este endpoint permite actualizar los detalles de un video basado en su ID.',
+    tags: ['Videos'],
     parameters: [
         {
             name: 'videoId',
@@ -9,7 +10,7 @@ const updateVideo = {
             required: true,
             schema: {
                 type: 'integer',
-                example: 123 // Ejemplo del ID del video
+                example: 4
             }
         }
     ],

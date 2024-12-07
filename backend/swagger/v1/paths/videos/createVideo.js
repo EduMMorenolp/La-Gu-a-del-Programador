@@ -3,6 +3,7 @@
 const createVideo = {
     summary: 'Crea un nuevo video',
     description: 'Este endpoint permite crear un nuevo video en la base de datos.',
+    tags: ['Videos'],
     requestBody: {
         required: true,
         content: {
@@ -13,7 +14,7 @@ const createVideo = {
                 example: {
                     titulo: "String",
                     descripcion: "String",
-                    id_categoria: 1,
+                    id_categoria: 4,
                     url: "String"
                 }
             }

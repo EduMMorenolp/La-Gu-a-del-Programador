@@ -3,6 +3,7 @@
 const getAllVideos = {
     summary: 'Obtiene todos los videos',
     description: 'Este endpoint devuelve todos los videos disponibles en la base de datos.',
+    tags: ['Videos'],
     responses: {
         200: {
             description: 'Lista de videos',
