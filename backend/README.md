@@ -62,3 +62,39 @@ backend/
 ├── package.json         # Configuración del proyecto y dependencias
 └── README.md            # Información del proyecto
 ```
+
+## Cómo Ejecutar el Servidor Localmente
+
+Sigue estos pasos para ejecutar el servidor localmente en tu máquina:
+
+1. Clona el repositorio: Si aún no lo has hecho, clona el repositorio en tu máquina local:
+
+```bash
+git clone https://github.com/tu-usuario/guia-del-programador-backend.git
+cd guia-del-programador-backend
+```
+2. Instala las dependencias: Ejecuta el siguiente comando para instalar las dependencias del proyecto:
+
+```bash
+npm install
+```
+
+3. Configura las variables de entorno: Crea un archivo .env basado en el archivo .env.example que se incluye en el proyecto. Asegúrate de incluir las credenciales correctas para tu base de datos MySQL:
+
+```bash
+cp .env.example .env
+```
+
+Abre el archivo .env y ajusta las variables como DB_HOST, DB_USER, DB_PASSWORD, DB_NAME según tu configuración de base de datos local.
+
+4. Ejecuta el servidor: Una vez que las dependencias estén instaladas y las variables de entorno configuradas, ejecuta el servidor con el siguiente comando:
+```bash
+npm start
+```
+El servidor se ejecutará en http://localhost:3000 por defecto.
+
+5. Accede a la documentación Swagger: Para explorar la documentación interactiva de la API, abre tu navegador y ve a:
+```bash
+http://localhost:3000/api/v1/docs
+```
+
