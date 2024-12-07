@@ -11,7 +11,7 @@ const getAllVideos = {
                     schema: {
                         type: 'array',
                         items: {
-                            $ref: '#/components/schemas/video/Video'
+                            $ref: '#/components/schemas/Video'
                         }
                     }
                 }

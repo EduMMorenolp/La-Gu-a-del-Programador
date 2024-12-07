@@ -20,7 +20,7 @@ const getVideoById = {
             content: {
                 'application/json': {
                     schema: {
-                        $ref: '#/components/schemas/video/Video'
+                        $ref: '#/components/schemas/Video'
                     }
                 }
             }

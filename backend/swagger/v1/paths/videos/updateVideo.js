@@ -1,5 +1,3 @@
-// swagger/v1/paths/videos/updateVideo.js
-
 const updateVideo = {
     summary: 'Actualiza un video por ID',
     description: 'Este endpoint permite actualizar los detalles de un video basado en su ID.',
@@ -10,7 +8,8 @@ const updateVideo = {
             description: 'ID del video a actualizar',
             required: true,
             schema: {
-                type: 'string'
+                type: 'integer',
+                example: 123 // Ejemplo del ID del video
             }
         }
     ],
@@ -19,7 +18,13 @@ const updateVideo = {
         content: {
             'application/json': {
                 schema: {
-                    $ref: '#/components/schemas/video/VideoUpdateInput'
+                    $ref: '#/components/schemas/VideoUpdateInput'
+                },
+                example: {
+                    titulo: "Actualización de título",
+                    descripcion: "Descripción actualizada del video.",
+                    id_categoria: 2,
+                    url: "https://mi-servidor.com/videos/actualizacion-titulo"
                 }
             }
         }
@@ -30,7 +35,7 @@ const updateVideo = {
             content: {
                 'application/json': {
                     schema: {
-                        $ref: '#/components/schemas/video/Video'
+                        $ref: '#/components/schemas/Video'
                     }
                 }
             }

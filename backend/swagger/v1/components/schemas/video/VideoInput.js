@@ -2,6 +2,7 @@
 
 const VideoInput = {
     type: 'object',
+    required: ["title", "description", " url"],
     properties: {
         title: {
             type: 'string',
@@ -16,7 +17,6 @@ const VideoInput = {
             description: 'URL del video'
         }
     },
-    required: ['title', 'url']
 };
 
 export default VideoInput;

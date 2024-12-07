@@ -8,7 +8,13 @@ const createVideo = {
         content: {
             'application/json': {
                 schema: {
-                    $ref: '#/components/schemas/video/VideoInput'
+                    $ref: '#/components/schemas/VideoInput'
+                },
+                example: {
+                    titulo: "String",
+                    descripcion: "String",
+                    id_categoria: 1,
+                    url: "String"
                 }
             }
         }
@@ -19,7 +25,7 @@ const createVideo = {
             content: {
                 'application/json': {
                     schema: {
-                        $ref: '#/components/schemas/video/Video'
+                        $ref: '#/components/schemas/Video'
                     }
                 }
             }
