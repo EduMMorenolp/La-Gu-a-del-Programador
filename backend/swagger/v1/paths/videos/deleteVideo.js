@@ -3,6 +3,7 @@
 const deleteVideo = {
     summary: 'Elimina un video por ID',
     description: 'Este endpoint elimina un video basado en su ID.',
+    tags: ['Videos'],
     parameters: [
         {
             name: 'videoId',
@@ -10,7 +11,8 @@ const deleteVideo = {
             description: 'ID del video a eliminar',
             required: true,
             schema: {
-                type: 'string'
+                type: 'string',
+                example: 4
             }
         }
     ],

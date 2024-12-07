@@ -3,6 +3,7 @@
 const getVideoById = {
     summary: 'Obtiene un video por ID',
     description: 'Este endpoint devuelve un video específico basándose en su ID.',
+    tags: ['Videos'],
     parameters: [
         {
             name: 'videoId',
@@ -10,7 +11,8 @@ const getVideoById = {
             description: 'ID del video',
             required: true,
             schema: {
-                type: 'string'
+                type: 'string',
+                example: 4
             }
         }
     ],
@@ -20,7 +22,7 @@ const getVideoById = {
             content: {
                 'application/json': {
                     schema: {
-                        $ref: '#/components/schemas/video/Video'
+                        $ref: '#/components/schemas/Video'
                     }
                 }
             }

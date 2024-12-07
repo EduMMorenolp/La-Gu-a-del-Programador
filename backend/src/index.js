@@ -5,6 +5,7 @@ import { createConnection } from './config/dbConfig.js';
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || 'localhost';
 
 const startServer = async () => {
   try {
@@ -15,8 +16,8 @@ const startServer = async () => {
     // Iniciar el servidor
     app.listen(PORT, () => {
       console.log('\n==================================================');
-      console.log(`🚀 Servidor corriendo en: http://localhost:${PORT}`);
-      console.log(`📃 Swagger Docs: http://localhost:${PORT}/api-docs`);
+      console.log(`🚀 Servidor corriendo en: http://${HOST}:${PORT}`);
+      console.log(`📃 Swagger Docs: http://${HOST}:${PORT}/api-docs`);
       console.log('==================================================\n');
     });
   } catch (error) {

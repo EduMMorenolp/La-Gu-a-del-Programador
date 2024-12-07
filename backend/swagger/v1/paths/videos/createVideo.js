@@ -3,12 +3,19 @@
 const createVideo = {
     summary: 'Crea un nuevo video',
     description: 'Este endpoint permite crear un nuevo video en la base de datos.',
+    tags: ['Videos'],
     requestBody: {
         required: true,
         content: {
             'application/json': {
                 schema: {
-                    $ref: '#/components/schemas/video/VideoInput'
+                    $ref: '#/components/schemas/VideoInput'
+                },
+                example: {
+                    titulo: "String",
+                    descripcion: "String",
+                    id_categoria: 4,
+                    url: "String"
                 }
             }
         }
@@ -19,7 +26,7 @@ const createVideo = {
             content: {
                 'application/json': {
                     schema: {
-                        $ref: '#/components/schemas/video/Video'
+                        $ref: '#/components/schemas/Video'
                     }
                 }
             }

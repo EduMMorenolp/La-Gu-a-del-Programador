@@ -3,6 +3,7 @@
 const getAllVideos = {
     summary: 'Obtiene todos los videos',
     description: 'Este endpoint devuelve todos los videos disponibles en la base de datos.',
+    tags: ['Videos'],
     responses: {
         200: {
             description: 'Lista de videos',
@@ -11,7 +12,7 @@ const getAllVideos = {
                     schema: {
                         type: 'array',
                         items: {
-                            $ref: '#/components/schemas/video/Video'
+                            $ref: '#/components/schemas/Video'
                         }
                     }
                 }
