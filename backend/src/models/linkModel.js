@@ -86,37 +86,67 @@ export const updateLink = async (idLink, link) => {
   try {
     await global.dbConnection.beginTransaction();
 
-    const [resourceResult] = await global.dbConnection.execute(
-      `
-            UPDATE Recurso r
-            JOIN Link l ON r.id_recurso = l.id_recurso
-            SET r.titulo = ?, r.descripcion = ?, r.id_categoria = ?
-            WHERE l.id_link = ?
-        `,
-      [titulo, descripcion, id_categoria, idLink]
-    );
+    const fieldsToUpdate = [];
+    const values = [];
 
-    if (resourceResult.affectedRows === 0) {
+    if (titulo !== undefined) {
+      fieldsToUpdate.push('r.titulo = COALESCE(?, r.titulo)');
+      values.push(titulo || null);
+    }
+
+    if (Object.hasOwn(link, 'descripcion')) {
+      fieldsToUpdate.push('r.descripcion = ?');
+      values.push(descripcion === '' ? null : descripcion);
+    }
+
+    if (id_categoria !== undefined) {
+      fieldsToUpdate.push('r.id_categoria = COALESCE(?, r.id_categoria)');
+      values.push(id_categoria || null);
+    }
+
+    if (fieldsToUpdate.length > 0) {
+      const updateResourceQuery = `
+          UPDATE Recurso r
+          JOIN Link l ON r.id_recurso = l.id_recurso
+          SET ${fieldsToUpdate.join(', ')}
+          WHERE l.id_link = ?
+      `;
+      values.push(idLink);
+
+      const [resourceResult] = await global.dbConnection.execute(
+        updateResourceQuery,
+        values
+      );
+
+      if (resourceResult.affectedRows === 0) {
+        throw {
+          statusCode: 404,
+          message: `No se encontro el link con ID ${idLink} para actualizar`,
+        };
+      }
+    } else if (url == undefined) {
       throw {
-        statusCode: 404,
-        message: `No se encontro el link con ID ${idLink} para actualizar`,
+        statusCode: 400,
+        message: 'No hay cambios para actualizar',
       };
     }
 
-    const [linkResult] = await global.dbConnection.execute(
-      `
+    if (url !== undefined) {
+      const [linkResult] = await global.dbConnection.execute(
+        `
             UPDATE Link
             SET url = ?
             WHERE id_link = ?
         `,
-      [url, idLink]
-    );
+        [url, idLink]
+      );
 
-    if (linkResult.affectedRows === 0) {
-      throw {
-        statusCode: 400,
-        message: 'No se pudo actualizar la URL del link',
-      };
+      if (linkResult.affectedRows === 0) {
+        throw {
+          statusCode: 400,
+          message: 'No se pudo actualizar la URL del link',
+        };
+      }
     }
 
     await global.dbConnection.commit();
