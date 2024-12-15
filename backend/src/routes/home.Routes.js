@@ -74,7 +74,7 @@ router.get('/', (req, res) => {
     <div class="container">
         <h1>Server is running</h1>
         <p class="blinking-text">...</p>
-        <a href="http://localhost:3000/api-docs">Swagger Docs</a>
+        <a href="https://la-guia-del-programador.onrender.com/api-docs">Swagger Docs</a>
     </div>
     </body>
     </html>
