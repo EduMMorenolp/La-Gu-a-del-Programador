@@ -1,6 +1,11 @@
 import * as linkService from '../services/linkService.js';
 
-// TODO: validar y sanitizar las requests
+import {
+  validateCreateResource,
+  validateLinkId,
+  validateRequest,
+  validateUpdateResource,
+} from '../utils/resourceValidator.js';
 
 export const getAllLinks = async (req, res, next) => {
   try {
@@ -11,38 +16,55 @@ export const getAllLinks = async (req, res, next) => {
   }
 };
 
-export const getLinkById = async (req, res, next) => {
-  try {
-    const link = await linkService.fetchLinkById(req.params.linkId);
-    res.status(200).json(link);
-  } catch (error) {
-    next(error);
-  }
-};
+export const getLinkById = [
+  ...validateLinkId,
+  async (req, res, next) => {
+    try {
+      validateRequest(req);
+      const link = await linkService.fetchLinkById(req.params.linkId);
+      res.status(200).json(link);
+    } catch (error) {
+      next(error);
+    }
+  },
+];
 
-export const createLink = async (req, res, next) => {
-  try {
-    const link = await linkService.addLink(req.body);
-    res.status(201).json(link);
-  } catch (error) {
-    next(error);
-  }
-};
+export const createLink = [
+  ...validateCreateResource,
+  async (req, res, next) => {
+    try {
+      validateRequest(req);
+      const link = await linkService.addLink(req.body);
+      res.status(201).json(link);
+    } catch (error) {
+      next(error);
+    }
+  },
+];
 
-export const updateLink = async (req, res, next) => {
-  try {
-    const link = await linkService.modifyLink(req.params.linkId, req.body);
-    res.status(200).json(link);
-  } catch (error) {
-    next(error);
-  }
-};
+export const updateLink = [
+  ...validateLinkId,
+  ...validateUpdateResource,
+  async (req, res, next) => {
+    try {
+      validateRequest(req);
+      const link = await linkService.modifyLink(req.params.linkId, req.body);
+      res.status(200).json(link);
+    } catch (error) {
+      next(error);
+    }
+  },
+];
 
-export const deleteLink = async (req, res, next) => {
-  try {
-    await linkService.removeLink(req.params.linkId);
-    res.status(200).json({ message: 'Link eliminado' });
-  } catch (error) {
-    next(error);
-  }
-};
+export const deleteLink = [
+  ...validateLinkId,
+  async (req, res, next) => {
+    try {
+      validateRequest(req);
+      await linkService.removeLink(req.params.linkId);
+      res.status(200).json({ message: 'Recurso eliminado' });
+    } catch (error) {
+      next(error);
+    }
+  },
+];
