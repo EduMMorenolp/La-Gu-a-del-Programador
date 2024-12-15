@@ -5,8 +5,8 @@ const versionsApi = ['v1', ' '];
 
 const servers = [
     {
-        url: "http://localhost:3000/{basePath}/{versionApi}",
-        description: "Local server",
+        url: "https://la-guia-del-programador.onrender.com/{basePath}/{versionApi}",
+        description: "Production server",
         variables: {
             basePath: {
                 enum: [basePath],
@@ -19,8 +19,8 @@ const servers = [
         },
     },
     {
-        url: "https://example.com/{basePath}/{versionApi}",
-        description: "Production server",
+        url: "http://localhost:3000/{basePath}/{versionApi}",
+        description: "Local server",
         variables: {
             basePath: {
                 enum: [basePath],
