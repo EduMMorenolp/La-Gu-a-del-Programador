@@ -86,37 +86,67 @@ export const updateVideo = async (idVideo, video) => {
   try {
     await global.dbConnection.beginTransaction();
 
-    const [resourceResult] = await global.dbConnection.execute(
-      `
-            UPDATE Recurso r
-            JOIN Video v ON r.id_recurso = v.id_recurso
-            SET r.titulo = ?, r.descripcion = ?, r.id_categoria = ?
-            WHERE v.id_video = ?
-        `,
-      [titulo, descripcion, id_categoria, idVideo]
-    );
+    const fieldsToUpdate = [];
+    const values = [];
 
-    if (resourceResult.affectedRows === 0) {
+    if (titulo !== undefined) {
+      fieldsToUpdate.push('r.titulo = COALESCE(?, r.titulo)');
+      values.push(titulo || null);
+    }
+
+    if (Object.hasOwn(video, 'descripcion')) {
+      fieldsToUpdate.push('r.descripcion = ?');
+      values.push(descripcion === '' ? null : descripcion);
+    }
+
+    if (id_categoria !== undefined) {
+      fieldsToUpdate.push('r.id_categoria = COALESCE(?, r.id_categoria)');
+      values.push(id_categoria || null);
+    }
+
+    if (fieldsToUpdate.length > 0) {
+      const updateResourceQuery = `
+          UPDATE Recurso r
+          JOIN Video v ON r.id_recurso = v.id_recurso
+          SET ${fieldsToUpdate.join(', ')}
+          WHERE v.id_video = ?
+      `;
+      values.push(idVideo);
+
+      const [resourceResult] = await global.dbConnection.execute(
+        updateResourceQuery,
+        values
+      );
+
+      if (resourceResult.affectedRows === 0) {
+        throw {
+          statusCode: 404,
+          message: `No se encontro el video con ID ${idVideo} para actualizar`,
+        };
+      }
+    } else if (url == undefined) {
       throw {
-        statusCode: 404,
-        message: `No se encontro el video con ID ${idVideo} para actualizar`,
+        statusCode: 400,
+        message: 'No hay cambios para actualizar',
       };
     }
 
-    const [videoResult] = await global.dbConnection.execute(
-      `
+    if (url !== undefined) {
+      const [videoResult] = await global.dbConnection.execute(
+        `
             UPDATE Video
             SET url = ?
             WHERE id_video = ?
         `,
-      [url, idVideo]
-    );
+        [url, idVideo]
+      );
 
-    if (videoResult.affectedRows === 0) {
-      throw {
-        statusCode: 400,
-        message: 'No se pudo actualizar la URL del video',
-      };
+      if (videoResult.affectedRows === 0) {
+        throw {
+          statusCode: 400,
+          message: 'No se pudo actualizar la URL del video',
+        };
+      }
     }
 
     await global.dbConnection.commit();

@@ -1,6 +1,11 @@
 import * as videoService from '../services/videoService.js';
 
-// TODO: validar y sanitizar las requests
+import {
+  validateCreateResource,
+  validateRequest,
+  validateUpdateResource,
+  validateVideoId,
+} from '../utils/resourceValidator.js';
 
 export const getAllVideos = async (req, res, next) => {
   try {
@@ -11,38 +16,58 @@ export const getAllVideos = async (req, res, next) => {
   }
 };
 
-export const getVideoById = async (req, res, next) => {
-  try {
-    const video = await videoService.fetchVideoById(req.params.videoId);
-    res.status(200).json(video);
-  } catch (error) {
-    next(error);
-  }
-};
+export const getVideoById = [
+  ...validateVideoId,
+  async (req, res, next) => {
+    try {
+      validateRequest(req);
+      const video = await videoService.fetchVideoById(req.params.videoId);
+      res.status(200).json(video);
+    } catch (error) {
+      next(error);
+    }
+  },
+];
 
-export const createVideo = async (req, res, next) => {
-  try {
-    const video = await videoService.addVideo(req.body);
-    res.status(201).json(video);
-  } catch (error) {
-    next(error);
-  }
-};
+export const createVideo = [
+  ...validateCreateResource,
+  async (req, res, next) => {
+    try {
+      validateRequest(req);
+      const video = await videoService.addVideo(req.body);
+      res.status(201).json(video);
+    } catch (error) {
+      next(error);
+    }
+  },
+];
 
-export const updateVideo = async (req, res, next) => {
-  try {
-    const video = await videoService.modifyVideo(req.params.videoId, req.body);
-    res.status(200).json(video);
-  } catch (error) {
-    next(error);
-  }
-};
+export const updateVideo = [
+  ...validateVideoId,
+  ...validateUpdateResource,
+  async (req, res, next) => {
+    try {
+      validateRequest(req);
+      const video = await videoService.modifyVideo(
+        req.params.videoId,
+        req.body
+      );
+      res.status(200).json(video);
+    } catch (error) {
+      next(error);
+    }
+  },
+];
 
-export const deleteVideo = async (req, res, next) => {
-  try {
-    await videoService.removeVideo(req.params.videoId);
-    res.status(200).json({ message: 'Video eliminado' });
-  } catch (error) {
-    next(error);
-  }
-};
+export const deleteVideo = [
+  ...validateVideoId,
+  async (req, res, next) => {
+    try {
+      validateRequest(req);
+      await videoService.removeVideo(req.params.videoId);
+      res.status(200).json({ message: 'Recurso eliminado' });
+    } catch (error) {
+      next(error);
+    }
+  },
+];
