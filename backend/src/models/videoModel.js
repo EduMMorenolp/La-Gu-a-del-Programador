@@ -2,8 +2,8 @@ export const getAllVideos = async () => {
   try {
     const [rows] = await global.dbConnection.execute(`
             SELECT v.id_video, r.titulo, r.descripcion, v.url, r.id_categoria
-            FROM Video v
-            JOIN Recurso r ON v.id_recurso = r.id_recurso
+            FROM video v
+            JOIN recurso r ON v.id_recurso = r.id_recurso
         `);
     return rows;
   } catch (error) {
@@ -16,8 +16,8 @@ export const getVideoById = async (idVideo) => {
     const [rows] = await global.dbConnection.execute(
       `
             SELECT v.id_video, r.titulo, r.descripcion, v.url, r.id_categoria
-            FROM Video v
-            JOIN Recurso r ON v.id_recurso = r.id_recurso
+            FROM video v
+            JOIN recurso r ON v.id_recurso = r.id_recurso
             WHERE v.id_video = ?
         `,
       [idVideo]
@@ -42,7 +42,7 @@ export const createVideo = async (video) => {
     await global.dbConnection.beginTransaction();
     const [recursoResult] = await global.dbConnection.execute(
       `
-            INSERT INTO Recurso (tipo_recurso, titulo, descripcion, id_categoria)
+            INSERT INTO recurso (tipo_recurso, titulo, descripcion, id_categoria)
             VALUES ('video', ?, ?, ?)
         `,
       [titulo, descripcion, id_categoria]
@@ -52,7 +52,7 @@ export const createVideo = async (video) => {
 
     const [videoResult] = await global.dbConnection.execute(
       `
-            INSERT INTO Video (id_recurso, url)
+            INSERT INTO video (id_recurso, url)
             VALUES (?, ?)
         `,
       [idRecurso, url]
@@ -106,8 +106,8 @@ export const updateVideo = async (idVideo, video) => {
 
     if (fieldsToUpdate.length > 0) {
       const updateResourceQuery = `
-          UPDATE Recurso r
-          JOIN Video v ON r.id_recurso = v.id_recurso
+          UPDATE recurso r
+          JOIN video v ON r.id_recurso = v.id_recurso
           SET ${fieldsToUpdate.join(', ')}
           WHERE v.id_video = ?
       `;
@@ -134,7 +134,7 @@ export const updateVideo = async (idVideo, video) => {
     if (url !== undefined) {
       const [videoResult] = await global.dbConnection.execute(
         `
-            UPDATE Video
+            UPDATE video
             SET url = ?
             WHERE id_video = ?
         `,
@@ -174,9 +174,9 @@ export const deleteVideo = async (idVideo) => {
   try {
     const [result] = await global.dbConnection.execute(
       `
-            DELETE FROM Recurso
+            DELETE FROM recurso
             WHERE id_recurso = (
-                SELECT id_recurso FROM Video WHERE id_video = ?
+                SELECT id_recurso FROM video WHERE id_video = ?
             )
         `,
       [idVideo]
