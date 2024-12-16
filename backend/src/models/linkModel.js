@@ -2,8 +2,8 @@ export const getAllLinks = async () => {
   try {
     const [rows] = await global.dbConnection.execute(`
             SELECT l.id_link, r.titulo, r.descripcion, l.url, r.id_categoria
-            FROM Link l
-            JOIN Recurso r ON l.id_recurso = r.id_recurso
+            FROM link l
+            JOIN recurso r ON l.id_recurso = r.id_recurso
         `);
     return rows;
   } catch (error) {
@@ -16,8 +16,8 @@ export const getLinkById = async (idLink) => {
     const [rows] = await global.dbConnection.execute(
       `
             SELECT l.id_link, r.titulo, r.descripcion, l.url, r.id_categoria
-            FROM Link l
-            JOIN Recurso r ON l.id_recurso = r.id_recurso
+            FROM link l
+            JOIN recurso r ON l.id_recurso = r.id_recurso
             WHERE l.id_link = ?
         `,
       [idLink]
@@ -42,7 +42,7 @@ export const createLink = async (link) => {
     await global.dbConnection.beginTransaction();
     const [recursoResult] = await global.dbConnection.execute(
       `
-            INSERT INTO Recurso (tipo_recurso, titulo, descripcion, id_categoria)
+            INSERT INTO recurso (tipo_recurso, titulo, descripcion, id_categoria)
             VALUES ('link', ?, ?, ?)
         `,
       [titulo, descripcion, id_categoria]
@@ -106,8 +106,8 @@ export const updateLink = async (idLink, link) => {
 
     if (fieldsToUpdate.length > 0) {
       const updateResourceQuery = `
-          UPDATE Recurso r
-          JOIN Link l ON r.id_recurso = l.id_recurso
+          UPDATE recurso r
+          JOIN link l ON r.id_recurso = l.id_recurso
           SET ${fieldsToUpdate.join(', ')}
           WHERE l.id_link = ?
       `;
@@ -134,7 +134,7 @@ export const updateLink = async (idLink, link) => {
     if (url !== undefined) {
       const [linkResult] = await global.dbConnection.execute(
         `
-            UPDATE Link
+            UPDATE link
             SET url = ?
             WHERE id_link = ?
         `,
@@ -174,9 +174,9 @@ export const deleteLink = async (idLink) => {
   try {
     const [result] = await global.dbConnection.execute(
       `
-            DELETE FROM Recurso
+            DELETE FROM recurso
             WHERE id_recurso = (
-                SELECT id_recurso FROM Link WHERE id_link = ?
+                SELECT id_recurso FROM link WHERE id_link = ?
             )
         `,
       [idLink]
