@@ -2,7 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import Router from './router';
+import AppRouter from './routes/AppRouter';
 
 // function App() {
 //   const [count, setCount] = useState(0)
@@ -32,5 +32,12 @@ import Router from './router';
 //     </>
 //   )
 // }
-const App = () => <Router />;
-export default App
+const App = () => {
+    return (
+      <div className="App">
+        <AppRouter />
+      </div>
+    );
+  };
+  
+  export default App;
