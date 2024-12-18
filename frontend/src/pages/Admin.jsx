@@ -1,0 +1,1 @@
+// Panel administrativo (futura expansión)
