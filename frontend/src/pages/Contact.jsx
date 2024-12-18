@@ -1,4 +1,9 @@
-// Página de contacto
+// Página de Contacto/Colaboración
+/*
+Formulario para enviar propuestas o sugerencias de recursos.
+Información sobre cómo unirse al equipo.
+Enlaces a las redes sociales del proyecto.
+*/
 const Contact = () => {
     return (
       <div>

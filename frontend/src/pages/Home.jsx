@@ -1,31 +1,19 @@
+/*
+Encabezado con el título y una breve descripción.
+Menú de navegación principal.
+Sección destacada con recursos más populares.
+Carrusel de categorías: Libros, Recursos en Línea, Canales de YouTube.
+Barra de búsqueda y filtros para facilitar el acceso.
+*/
 import { Link } from 'react-router-dom';
+import MainLayout from '../components/Layouts/MainLayout';
 
 const Home = () => {
   return (
-    <div>
+    <MainLayout>
       <h1>Home Page!</h1>
-      <p>List:</p>
-      <ul>
-        <li>
-          <Link to="/login">Login</Link>
-        </li>
-        <li>
-          <Link to="/register">Register</Link>
-        </li>
-        <li>
-          <Link to="/category/1">Category Page</Link>
-        </li>
-        <li>
-          <Link to="/resource/1">Resource Detail Page</Link>
-        </li>
-        <li>
-          <Link to="/favorites">Favorites Page</Link>
-        </li>
-        <li>
-          <Link to="/contact">Contact Page</Link>
-        </li>
-      </ul>
-    </div>
+      <p>Description</p>
+    </MainLayout>
   );
 };
 

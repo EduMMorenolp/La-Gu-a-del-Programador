@@ -1,3 +1,8 @@
+/*
+Página de Registro/Iniciar Sesión
+Formulario de registro y acceso.
+Autenticación con redes sociales (Google, GitHub).
+*/
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
