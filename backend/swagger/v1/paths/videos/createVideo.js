@@ -4,6 +4,11 @@ const createVideo = {
     summary: 'Crea un nuevo video',
     description: 'Este endpoint permite crear un nuevo video en la base de datos.',
     tags: ['Videos'],
+    security: [
+        {
+            bearerAuth: []
+        }
+    ],
     requestBody: {
         required: true,
         content: {

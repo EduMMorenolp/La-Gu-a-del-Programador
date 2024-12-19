@@ -2,6 +2,11 @@ const deleteUser = {
     summary: 'Elimina un usuario',
     description: 'Este endpoint permite eliminar un usuario del sistema.',
     tags: ['User'],
+    security: [
+        {
+            bearerAuth: []
+        }
+    ],
     parameters: [
         {
             name: 'userId',

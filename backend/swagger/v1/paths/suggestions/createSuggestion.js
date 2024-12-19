@@ -2,6 +2,11 @@ const createSuggestion = {
     summary: 'Crea una nueva sugerencia',
     description: 'Este endpoint permite a los usuarios enviar sugerencias de contenido.',
     tags: ['Suggestion'],
+    security: [
+        {
+            bearerAuth: []
+        }
+    ],
     requestBody: {
         required: true,
         content: {

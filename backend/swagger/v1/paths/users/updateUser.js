@@ -2,6 +2,11 @@ const updateUser = {
     summary: 'Actualiza un usuario',
     description: 'Este endpoint permite actualizar los detalles de un usuario en el sistema.',
     tags: ['User'],
+    security: [
+        {
+            bearerAuth: []
+        }
+    ],
     parameters: [
         {
             name: 'userId',
