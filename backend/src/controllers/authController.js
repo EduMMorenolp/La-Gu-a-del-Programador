@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import * as userService from '../services/userService.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const login = async (req, res) => {
     try {
@@ -14,14 +16,13 @@ export const login = async (req, res) => {
             return res.status(401).json({ success: false, message: 'Credenciales inválidas' });
         }
 
-        // Obtener el primer usuario en caso de que la consulta retorne un arreglo
         const user = users[0];
 
-        console.log('Contraseña proporcionada:', contrasena);
-        console.log('Hash de la contraseña del usuario:', user.contrasena);
+        if (!user[0].contrasena) {
+            return res.status(401).json({ success: false, message: 'Usuario sin contraseña registrada' });
+        }
 
-        // Verificar la contraseña utilizando bcrypt
-        const isPasswordValid = await bcrypt.compare(contrasena, user.contrasena);
+        const isPasswordValid = await bcrypt.compare(contrasena, user[0].contrasena);
 
         if (!isPasswordValid) {
             return res.status(401).json({ success: false, message: 'Credenciales inválidas' });
