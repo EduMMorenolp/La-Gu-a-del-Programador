@@ -29,28 +29,37 @@ backend/
 ├── node_modules/        # Dependencias del proyecto
 ├── src/                 # Código fuente
 │   ├── controllers/     # Lógica de las rutas
-│   │   ├── linksController.js
-│   │   ├── suggestionsController.js
-│   │   └── youtubeController.js
+│   │   ├── authController.js       # Controlador para autenticación (login/logout)
+│   │   ├── linksController.js      # Controlador para CRUD de links
+│   │   ├── suggestionsController.js # Controlador para CRUD de sugerencias
+│   │   ├── usersController.js      # Controlador para CRUD de usuarios
+│   │   ├── videosController.js     # Controlador para CRUD de videos
 │   ├── routes/          # Definición de las rutas
-│   │   ├── linksRoutes.js
-│   │   ├── suggestionsRoutes.js
-│   │   └── youtubeRoutes.js
+│   │   ├── authRoutes.js           # Rutas de autenticación
+│   │   ├── linksRoutes.js          # Rutas de CRUD de links
+│   │   ├── suggestionsRoutes.js    # Rutas de CRUD de sugerencias
+│   │   ├── usersRoutes.js          # Rutas de CRUD de usuarios
+│   │   ├── videosRoutes.js         # Rutas de CRUD de videos
 │   ├── models/          # Modelos de datos
-│   │   ├── linkModel.js
-│   │   ├── suggestionModel.js
-│   │   └── youtubeModel.js
+│   │   ├── linkModel.js            # Modelo para links
+│   │   ├── suggestionModel.js      # Modelo para sugerencias
+│   │   ├── userModel.js            # Modelo para usuarios
+│   │   ├── videoModel.js           # Modelo para videos
 │   ├── services/        # Lógica de negocio o conexión a servicios externos
-│   │   ├── dbService.js
-│   │   └── validationService.js
+│   │   ├── authService.js          # Lógica de autenticación
+│   │   ├── linkService.js          # Lógica de negocio para links
+│   │   ├── suggestionService.js    # Lógica de negocio para sugerencias
+│   │   ├── userService.js          # Lógica de negocio para usuarios
+│   │   ├── videoService.js         # Lógica de negocio para videos
+│   │   ├── dbService.js            # Configuración de base de datos
 │   ├── config/          # Configuraciones generales
-│   │   ├── dbConfig.js
-│   │   └── swaggerConfig.js
+│   │   ├── dbConfig.js             # Configuración de la conexión a la base de datos
+│   │   ├── swaggerConfig.js        # Configuración para Swagger
 │   ├── middlewares/     # Middleware personalizados
-│   │   ├── errorHandler.js
-│   │   └── authMiddleware.js
+│   │   ├── errorHandler.js         # Manejo de errores
+│   │   ├── authMiddleware.js       # Middleware de autenticación JWT
 │   ├── utils/           # Utilidades generales
-│   │   └── responseHelper.js
+│   │   ├── responseHelper.js       # Utilidad para formatear respuestas
 │   ├── app.js           # Configuración inicial de Express
 │   └── index.js         # Punto de entrada principal
 ├── tests/               # Tests del proyecto
@@ -73,6 +82,7 @@ Sigue estos pasos para ejecutar el servidor localmente en tu máquina:
 git clone https://github.com/tu-usuario/guia-del-programador-backend.git
 cd guia-del-programador-backend
 ```
+
 2. Instala las dependencias: Ejecuta el siguiente comando para instalar las dependencias del proyecto:
 
 ```bash
@@ -88,13 +98,15 @@ cp .env.example .env
 Abre el archivo .env y ajusta las variables como DB_HOST, DB_USER, DB_PASSWORD, DB_NAME según tu configuración de base de datos local.
 
 4. Ejecuta el servidor: Una vez que las dependencias estén instaladas y las variables de entorno configuradas, ejecuta el servidor con el siguiente comando:
+
 ```bash
 npm start
 ```
+
 El servidor se ejecutará en http://localhost:3000 por defecto.
 
 5. Accede a la documentación Swagger: Para explorar la documentación interactiva de la API, abre tu navegador y ve a:
+
 ```bash
 http://localhost:3000/api/v1/docs
 ```
-
