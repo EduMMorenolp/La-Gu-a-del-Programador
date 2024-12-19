@@ -11,8 +11,10 @@ export const login = async (req, res) => {
         // Buscar al usuario por email
         const users = await userService.getUserByEmail(email);
 
+        console.log(users);
+
         // Verificar que el usuario exista
-        if (!users || users.length === 0) {
+        if (!users || users[0].length === 0) {
             return res.status(401).json({ success: false, message: 'Credenciales inválidas' });
         }
 
@@ -40,7 +42,7 @@ export const login = async (req, res) => {
             success: true,
             message: 'Inicio de sesión exitoso',
             token,
-            user: { id_usuario: user.id_usuario, nombre_usuario: user.nombre_usuario, email: user.email }
+            user: { id_usuario: user[0].id_usuario, nombre_usuario: user[0].nombre_usuario, email: user[0].email }
         });
     } catch (error) {
         console.error(error);  // Ver detalles del error
