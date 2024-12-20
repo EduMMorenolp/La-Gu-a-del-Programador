@@ -32,7 +32,7 @@ export const login = async (req, res) => {
 
         // Generar un token JWT
         const token = jwt.sign(
-            { id_usuario: user[0].id_usuario, email: user[0].email },
+            { id_usuario: user[0].id_usuario, email: user[0].email, rol: user[0].rol},
             process.env.JWT_SECRET,
             { expiresIn: process.env.JWT_EXPIRATION_TIME || '1h' }
         );
@@ -42,7 +42,7 @@ export const login = async (req, res) => {
             success: true,
             message: 'Inicio de sesión exitoso',
             token,
-            user: { id_usuario: user[0].id_usuario, nombre_usuario: user[0].nombre_usuario, email: user[0].email }
+            user: { id_usuario: user[0].id_usuario, nombre_usuario: user[0].nombre_usuario, email: user[0].email, rol: user[0].rol }
         });
     } catch (error) {
         console.error(error);  // Ver detalles del error
