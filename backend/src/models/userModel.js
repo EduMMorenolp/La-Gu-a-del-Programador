@@ -44,7 +44,7 @@ export const updateUser = async (idUsuario, { nombre_usuario, email, contrasena 
 export const deleteUser = async (idUsuario) => {
     try {
         const [result] = await global.dbConnection.execute(`
-            DELETE FROM usuario WHERE id_usuario = ?
+            UPDATE usuario SET eliminado = TRUE WHERE id_usuario = ?
         `, [idUsuario]);
 
         if (result.affectedRows === 0) {
@@ -59,4 +59,3 @@ export const deleteUser = async (idUsuario) => {
         throw error;
     }
 };
-

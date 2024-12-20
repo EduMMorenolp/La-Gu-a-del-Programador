@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { decode } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import * as userService from '../services/userService.js';
 import dotenv from 'dotenv';
@@ -10,8 +10,6 @@ export const login = async (req, res) => {
 
         // Buscar al usuario por email
         const users = await userService.getUserByEmail(email);
-
-        console.log(users);
 
         // Verificar que el usuario exista
         if (!users || users[0].length === 0) {
@@ -30,9 +28,11 @@ export const login = async (req, res) => {
             return res.status(401).json({ success: false, message: 'Credenciales inválidas' });
         }
 
+        console.log(user[0].id_usuario);
+
         // Generar un token JWT
         const token = jwt.sign(
-            { id_usuario: user.id_usuario, email: user.email },
+            { id_usuario: user[0].id_usuario, email: user[0].email },
             process.env.JWT_SECRET,
             { expiresIn: process.env.JWT_EXPIRATION_TIME || '1h' }
         );

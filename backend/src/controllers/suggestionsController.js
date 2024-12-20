@@ -12,7 +12,7 @@ export const getAllSuggestions = async (req, res) => {
 export const createSuggestion = async (req, res) => {
     try {
         const { titulo, descripcion } = req.body;
-        const { id_usuario } = req.user; // Extraer el usuario autenticado desde el middleware
+        const { id_usuario } = req.user;
 
         const suggestion = await suggestionService.createSuggestion({ titulo, descripcion, id_usuario });
         res.status(201).json({ success: true, data: suggestion });

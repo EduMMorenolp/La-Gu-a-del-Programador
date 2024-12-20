@@ -1,12 +1,13 @@
 import express from 'express';
 import * as linksController from '../controllers/linksController.js';
+import { authenticateToken } from '../middlewares/authenticateToken.js';
 
 const router = express.Router();
 
 router.get('/', linksController.getAllLinks);
 router.get('/:linkId', linksController.getLinkById);
-router.post('/', linksController.createLink);
-router.put('/:linkId', linksController.updateLink);
-router.delete('/:linkId', linksController.deleteLink);
+router.post('/',authenticateToken, linksController.createLink);
+router.put('/:linkId',authenticateToken, linksController.updateLink);
+router.delete('/:linkId',authenticateToken, linksController.deleteLink);
 
 export default router;
