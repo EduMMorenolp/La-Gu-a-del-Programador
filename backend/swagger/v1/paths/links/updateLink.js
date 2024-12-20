@@ -2,6 +2,11 @@ const updateLink = {
     summary: 'Actualiza un link por ID',
     description: 'Permite actualizar un link específico en la base de datos.',
     tags: ['Links'], 
+    security: [
+        {
+            bearerAuth: []
+        }
+    ],
     parameters: [
         {
             name: 'linkId',

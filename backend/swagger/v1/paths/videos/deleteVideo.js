@@ -4,6 +4,11 @@ const deleteVideo = {
     summary: 'Elimina un video por ID',
     description: 'Este endpoint elimina un video basado en su ID.',
     tags: ['Videos'],
+    security: [
+        {
+            bearerAuth: []
+        }
+    ],
     parameters: [
         {
             name: 'videoId',

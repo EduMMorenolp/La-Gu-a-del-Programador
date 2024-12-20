@@ -15,6 +15,11 @@ import getLinkById from './paths/links/getLinkById.js';
 import createLink from './paths/links/createLink.js';
 import updateLink from './paths/links/updateLink.js';
 import deleteLink from './paths/links/deleteLink.js';
+import createUser from './paths/users/createUser.js';
+import deleteUser from './paths/users/deleteUser.js';
+import updateUser from './paths/users/updateUser.js';
+import getAllSuggestions from './paths/suggestions/getAllSuggestions.js';
+import createSuggestion from './paths/suggestions/createSuggestion.js';
 
 // Importar los esquemas de los modelos (schemas)
 import Video from './components/schemas/video/Video.js';
@@ -22,8 +27,14 @@ import VideoInput from './components/schemas/video/VideoInput.js';
 import VideoUpdateInput from './components/schemas/video/VideoUpdateInput.js';
 import Link from './components/schemas/links/Link.js';
 import LinkInput from './components/schemas/links/LinkInput.js';
+import User from './components/schemas/users/User.js';
+import Suggestion from './components/schemas/suggestions/Suggestion.js';
+import UserInput from './components/schemas/users/UserInput.js';
+import SuggestionInput from './components/schemas/suggestions/SuggestionInput.js';
 
-// Importar los esquemas de seguridad
+// Importar las rutas de autenticación (login y logout)
+import login from './paths/auth/login.js'; // Importa la ruta de login
+import logout from './paths/auth/logout.js';
 
 // Definición del objeto swaggerSpec con la configuración de la API
 
@@ -32,6 +43,23 @@ const swaggerSpec = {
     info,
     servers,
     paths: {
+        // Rutas de autenticación
+        '/auth/login': {
+            post: login
+        },
+        '/auth/logout': {
+            post: logout
+        },
+
+        // Rutas de usuarios
+        '/users': {
+            post: createUser,
+        },
+        '/users/{userId}': {
+            put: updateUser,
+            delete: deleteUser
+        },
+
         // Rutas de videos
         '/resources/videos': {
             get: getAllVideos,
@@ -52,6 +80,12 @@ const swaggerSpec = {
             get: getLinkById,
             put: updateLink,
             delete: deleteLink
+        },
+
+        // Rutas Suggestion
+        '/resources/suggestions': {
+            get: getAllSuggestions,
+            post: createSuggestion
         }
     },
     components: {
@@ -63,9 +97,22 @@ const swaggerSpec = {
 
             // Esquemas de links
             Link,
-            LinkInput
+            LinkInput,
+
+            // Esquemas de usuarios
+            User,
+            UserInput,
+
+            // Esquemas de suggestions
+            Suggestion,
+            SuggestionInput
         },
         securitySchemes: {
+            bearerAuth: {
+                type: 'http',
+                scheme: 'bearer',
+                bearerFormat: 'JWT'
+            }
         }
     }
 };

@@ -1,7 +1,12 @@
 const createLink = {
     summary: 'Crea un nuevo link',
     description: 'Permite crear un nuevo link en la base de datos.',
-    tags: ['Links'], 
+    tags: ['Links'],
+    security: [
+        {
+            bearerAuth: []
+        }
+    ],
     requestBody: {
         required: true,
         content: {

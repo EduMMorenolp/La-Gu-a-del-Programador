@@ -2,6 +2,11 @@ const updateVideo = {
     summary: 'Actualiza un video por ID',
     description: 'Este endpoint permite actualizar los detalles de un video basado en su ID.',
     tags: ['Videos'],
+    security: [
+        {
+            bearerAuth: []
+        }
+    ],
     parameters: [
         {
             name: 'videoId',

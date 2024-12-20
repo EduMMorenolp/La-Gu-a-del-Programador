@@ -2,6 +2,11 @@ const deleteLink = {
     summary: 'Elimina un link por ID',
     description: 'Permite eliminar un link específico de la base de datos.',
     tags: ['Links'], 
+    security: [
+        {
+            bearerAuth: []
+        }
+    ],
     parameters: [
         {
             name: 'linkId',
