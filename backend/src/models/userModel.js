@@ -1,9 +1,9 @@
-export const createUser = async ({ nombre_usuario, email, contrasena }) => {
+export const createUser = async ({ nombre, email, password, rol = 'usuario' }) => {
     try {
         const [result] = await global.dbConnection.execute(`
-            INSERT INTO usuario (nombre_usuario, email, contrasena) 
-            VALUES (?, ?, ?)
-        `, [nombre_usuario, email, contrasena]);
+            INSERT INTO usuario (nombre, email, password, rol) 
+            VALUES (?, ?, ?, ?)
+        `, [nombre, email, password, rol]);
 
         return { id_usuario: result.insertId };
     } catch (error) {
