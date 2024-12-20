@@ -11,12 +11,10 @@ export const authorize = (roles) => {
     const { rol } = req.user;
 
     if (!roles.includes(rol)) {
-      return res
-        .status(403)
-        .json({
-          success: false,
-          message: 'No tienes permiso para acceder a este recurso',
-        });
+      return res.status(403).json({
+        success: false,
+        message: 'No tienes permiso para acceder a este recurso',
+      });
     }
 
     next();
