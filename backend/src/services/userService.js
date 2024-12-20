@@ -7,11 +7,14 @@ import bcrypt from 'bcrypt';
  * @returns {Object} Usuario encontrado.
  */
 export const getUserByEmail = async (email) => {
-    const user = await userModel.getUserByEmail(email);
-    if (!user) {
-        throw { statusCode: 404, message: `Usuario con email ${email} no encontrado` };
-    }
-    return user;
+  const user = await userModel.getUserByEmail(email);
+  if (!user) {
+    throw {
+      statusCode: 404,
+      message: `Usuario con email ${email} no encontrado`,
+    };
+  }
+  return user;
 };
 
 /**
@@ -20,9 +23,12 @@ export const getUserByEmail = async (email) => {
  * @returns {Object} Usuario creado.
  */
 export const createUser = async (user) => {
-    const hashedPassword = await bcrypt.hash(user.contrasena, 10);
-    const newUser = await userModel.createUser({ ...user, contrasena: hashedPassword });
-    return { ...newUser, nombre_usuario: user.nombre_usuario, email: user.email };
+  const hashedPassword = await bcrypt.hash(user.contrasena, 10);
+  const newUser = await userModel.createUser({
+    ...user,
+    contrasena: hashedPassword,
+  });
+  return { ...newUser, nombre_usuario: user.nombre_usuario, email: user.email };
 };
 
 /**
@@ -32,12 +38,18 @@ export const createUser = async (user) => {
  * @returns {Object} Usuario actualizado.
  */
 export const updateUser = async (userId, user) => {
-    const hashedPassword = await bcrypt.hash(user.contrasena, 10);
-    const isUpdated = await userModel.updateUser(userId, { ...user, contrasena: hashedPassword });
-    if (!isUpdated) {
-        throw { statusCode: 404, message: `Usuario con ID ${userId} no encontrado` };
-    }
-    return { id_usuario: userId, ...user };
+  const hashedPassword = await bcrypt.hash(user.contrasena, 10);
+  const isUpdated = await userModel.updateUser(userId, {
+    ...user,
+    contrasena: hashedPassword,
+  });
+  if (!isUpdated) {
+    throw {
+      statusCode: 404,
+      message: `Usuario con ID ${userId} no encontrado`,
+    };
+  }
+  return { id_usuario: userId, ...user };
 };
 
 /**
@@ -46,9 +58,12 @@ export const updateUser = async (userId, user) => {
  * @returns {boolean} Resultado de la operación.
  */
 export const deleteUser = async (userId) => {
-    const isDeleted = await userModel.deleteUser(userId);
-    if (!isDeleted) {
-        throw { statusCode: 404, message: `Usuario con ID ${userId} no encontrado` };
-    }
-    return true;
+  const isDeleted = await userModel.deleteUser(userId);
+  if (!isDeleted) {
+    throw {
+      statusCode: 404,
+      message: `Usuario con ID ${userId} no encontrado`,
+    };
+  }
+  return true;
 };

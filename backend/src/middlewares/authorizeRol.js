@@ -1,18 +1,24 @@
 export const authorize = (roles) => {
-    return (req, res, next) => {
+  return (req, res, next) => {
+    console.log(req.user);
 
-        console.log(req.user);
+    if (!req.user) {
+      return res
+        .status(401)
+        .json({ success: false, message: 'Usuario no autenticado' });
+    }
 
-        if (!req.user) {
-            return res.status(401).json({ success: false, message: 'Usuario no autenticado' });
-        }
+    const { rol } = req.user;
 
-        const { rol } = req.user;
+    if (!roles.includes(rol)) {
+      return res
+        .status(403)
+        .json({
+          success: false,
+          message: 'No tienes permiso para acceder a este recurso',
+        });
+    }
 
-        if (!roles.includes(rol)) {
-            return res.status(403).json({ success: false, message: 'No tienes permiso para acceder a este recurso' });
-        }
-
-        next();
-    };
+    next();
+  };
 };
