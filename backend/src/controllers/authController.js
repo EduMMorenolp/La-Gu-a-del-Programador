@@ -63,8 +63,7 @@ export const login = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error(error); // Ver detalles del error
-    res.status(500).json({ success: false, message: error.message });
+    next(error);
   }
 };
 
