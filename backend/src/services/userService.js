@@ -23,8 +23,6 @@ export const getUserByEmail = async (email) => {
  * @returns {Object} Usuario creado.
  */
 export const createUserService = async (user) => {
-console.log(user);
-
   const hashedPassword = await bcrypt.hash(user.contrasena, 10);
   const newUser = await userModel.createUser({
     ...user,
