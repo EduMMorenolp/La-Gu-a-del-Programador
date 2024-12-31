@@ -6,10 +6,6 @@ const router = express.Router();
 
 // Rutas para sugerencias
 router.get('/', suggestionsController.getAllSuggestions);
-router.post(
-  '/',
-  authenticateToken,
-  suggestionsController.createSuggestion
-);
+router.post('/', authenticateToken, suggestionsController.createSuggestion);
 
 export default router;
