@@ -2,9 +2,15 @@ import * as userService from '../services/userService.js';
 
 export const createUser = async (req, res) => {
   try {
-    const newUser = await userService.createUser(req.body);
+    const { nombre, email, contrasena } = req.body;
+    if (!nombre || !email || !contrasena) {
+      return res.status(400).json({ success: false, message: 'Faltan datos requeridos' });
+    }
+
+    const newUser = await userService.createUserService({ nombre, email, contrasena });
     res.status(201).json({ success: true, data: newUser });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };
