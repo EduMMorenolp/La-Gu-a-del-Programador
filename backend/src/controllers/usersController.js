@@ -18,7 +18,17 @@ export const createUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const { userId } = req.params;
-    const updatedUser = await userService.updateUser(userId, req.body);
+    const { id_usuario } = req.user;
+
+    // Verificar si el usuario tiene permiso para actualizar
+    if (String(userId) !== String(id_usuario)) {
+      return res.status(403).json({
+        success: false,
+        message: 'No tienes permiso para actualizar este usuario',
+      });
+    }
+
+    const updatedUser = await userService.updateUserService(userId, req.body);
     if (!updatedUser) {
       return res
         .status(404)
@@ -33,6 +43,15 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     const { userId } = req.params;
+    const { id_usuario } = req.user;
+
+    // Verificar si el usuario tiene permiso para actualizar
+    if (String(userId) !== String(id_usuario)) {
+      return res.status(403).json({
+        success: false,
+        message: 'No tienes permiso para actualizar este usuario',
+      });
+    }
     const result = await userService.deleteUser(userId);
     if (!result) {
       return res

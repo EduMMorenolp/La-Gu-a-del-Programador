@@ -37,8 +37,6 @@ export const login = async (req, res) => {
         .json({ success: false, message: 'Credenciales inválidas' });
     }
 
-    console.log(user[0].id_usuario);
-
     // Generar un token JWT
     const token = jwt.sign(
       {

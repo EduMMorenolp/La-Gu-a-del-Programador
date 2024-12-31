@@ -39,7 +39,7 @@ console.log(user);
  * @param {Object} user - Datos del usuario (nombre_usuario, email, contrasena).
  * @returns {Object} Usuario actualizado.
  */
-export const updateUser = async (userId, user) => {
+export const updateUserService = async (userId, user) => {
   const hashedPassword = await bcrypt.hash(user.contrasena, 10);
   const isUpdated = await userModel.updateUser(userId, {
     ...user,
